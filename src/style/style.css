@@ -20,7 +20,8 @@ a:hover {
 }
 
 input[type="button"],
-input[type="submit"] {
+input[type="submit"],
+.subscribeBtn{
     transition: 0.5s all;
     -webkit-transition: 0.5s all;
     -moz-transition: 0.5s all;
@@ -1133,7 +1134,7 @@ h3.agileinfo_sign {
     box-shadow: 0px 2px 1px rgba(28, 28, 29, 0.42);
 }
 
-.signin-form input[type="submit"]:hover {
+.signin-form input[type="submit"]:hover, .subscribeBtn:hover {
     color: #fff;
     background: #000;
     transition: .5s all;
@@ -1142,6 +1143,31 @@ h3.agileinfo_sign {
     -o-transition: .5s all;
     -ms-transition: .5s all;
 }
+
+.subscribeBtn{
+    outline: none;
+    padding: 0.8em 0;
+    width: 20%;
+    text-align: center;
+    font-size: 1em;
+    margin-top: 1em;
+    border: none;
+    color: #FFFFFF;
+    text-transform: uppercase;
+    cursor: pointer;
+    background: #76daff;
+    box-shadow: 0px 2px 1px rgba(28, 28, 29, 0.42);
+}
+
+.subscribeArea{
+    text-align: center;
+    margin-bottom: 3em;
+}
+
+.subscribeArea h3{
+    margin-bottom : 0;
+}
+
 
 .signin-form p a {
     font-size: 1em;

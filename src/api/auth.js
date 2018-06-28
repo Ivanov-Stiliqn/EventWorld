@@ -21,8 +21,8 @@ export function register(firstName, lastName, email, password) {
             password,
             firstName,
             lastName,
-            isAdmin: false
-
+            isAdmin: false,
+            subscriptions: []
         };
 
         return requester.post('user', '', 'basic', userData);

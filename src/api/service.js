@@ -1,4 +1,5 @@
 import * as requester from './requester';
+import {fullDate} from '../utilities/dateConverter';
 
 export function renderChirps(subscriptions) {
     let subs = JSON.stringify(subscriptions);
@@ -58,4 +59,21 @@ export function addCategory(name, image){
     let data = {name, image};
 
     return requester.post('appdata', 'categories', 'kinvey', data);
+}
+
+export function renderEvents(){
+    return requester.get('appdata', `events?query={"date":{"$gte": "${fullDate(new Date(Date.now()))}"}}`)
+}
+
+export function getEventsByCategory(category) {
+    return requester.get('appdata', `events?query={"date":{"$gte": "${fullDate(new Date(Date.now()))}"},"category": "${category}"}`)
+}
+
+export function getEventsFromSubscriptions(subscriptions) {
+    let subs = JSON.stringify(subscriptions);
+    return requester.get('appdata', `events?query={"category":{"$in": ${subs}}}&sort={"_kmd.ect": 1}`);
+}
+
+export function addEvent(data){
+    return requester.post('appdata', 'events', 'kinvey', data);
 }

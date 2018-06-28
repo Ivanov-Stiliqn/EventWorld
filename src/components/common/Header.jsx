@@ -40,6 +40,7 @@ class Header extends Component{
                                         {user.username && <li className={currentPage === 'Profile' ? 'active' : null}><Link to='/profile'>Profile</Link></li>}
                                         {user.username && <li className={currentPage === 'Add_Category' ? 'active' : null}><Link to='/add-category'>Add Category</Link></li>}
                                         {user.username && <li className={currentPage === 'Add_Event' ? 'active' : null}><Link to='/add-event'>Add Event</Link></li>}
+                                        {user.username && <li className={currentPage === 'Events_Page' ? 'active' : null}><Link to='/all/1'>Events</Link></li>}
                                         {!user.username && <li className={currentPage === 'Login' ? 'active' : null}><Link to='/login'>Login</Link></li>}
                                         {!user.username && <li className={currentPage === 'Register' ? 'active' : null}><Link to='/register'>Register</Link></li>}
                                         {user.username !== undefined ?

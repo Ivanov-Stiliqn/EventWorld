@@ -47,7 +47,8 @@ class App extends Component {
                     <Route exact path="/register" component={RegisterPage}/>
                     <Route exact path="/add-category" component={AddCategoryPage}/>
                     <Route exact path="/add-event" component={AddEventPage}/>
-                    <Route exact path="/all" component={EventsPage}/>
+                    <Route exact path="/all/:page/:category" component={EventsPage}/>
+                    <Route exact path="/all/:page" component={EventsPage}/>
                     <Route exact path="/" component={HomePage}/>
                 </Switch>
                 <Footer/>

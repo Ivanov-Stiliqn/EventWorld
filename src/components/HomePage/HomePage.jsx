@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {setPage} from "../../actions/pageActions";
 import {renderCategoriesAction} from "../../actions/categoryActions";
-import Category from '../common/Category'
+import Category from './Category'
 
 class HomePage extends Component {
     constructor(props) {

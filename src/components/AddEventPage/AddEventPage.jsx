@@ -1,9 +1,9 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
 import {setPage} from "../../actions/pageActions";
-import {addCategoryAction} from "../../actions/categoryActions";
 import toastr from 'toastr';
 import Input from '../common/Input';
+import {addEventAction} from "../../actions/eventActions";
 
 class AddEventPage extends Component {
     constructor(props) {
@@ -15,6 +15,8 @@ class AddEventPage extends Component {
             date: '',
             category: '',
             availablePlaces: '',
+            location: '',
+            description: '',
             isLooking: true
         };
 
@@ -35,7 +37,12 @@ class AddEventPage extends Component {
 
     onSubmitHandler(e) {
         e.preventDefault();
-        console.log(this.state);
+        let data = Object.assign({}, this.state);
+        data.user = this.props.user._id;
+        this.props.addEvent(data).then(() => {
+                this.props.history.push('/all');
+                toastr.success('Event added !');
+        })
 
     }
 
@@ -53,13 +60,16 @@ class AddEventPage extends Component {
                                     <label htmlFor='category'>Category</label>
                                     <select onChange={this.onChangeHandler} name='category'>
                                         {this.props.categories.map((c, i) => {
-                                            return <option value={c._id} key={i}>{c.name}</option>
+                                            return <option value={c.name} key={i}>{c.name}</option>
                                         })}
                                     </select>
                                     <Input type="text" name="name" placeholder="Event" required="" label='Event' value={this.state.name} onChange={this.onChangeHandler}/>
                                     <Input type="text" name="image" placeholder="Image" required="" label='Image' value={this.state.image} onChange={this.onChangeHandler}/>
                                     <Input type="number" name="availablePlaces" placeholder="Total People" required="" label='Total People' value={this.state.availablePlaces} onChange={this.onChangeHandler}/>
                                     <Input type="date" name="date" placeholder="Date" required="" label='Date of event' value={this.state.date} onChange={this.onChangeHandler}/>
+                                    <Input type="text" name="location" placeholder="Location" required="" label='Location of the event' value={this.state.location} onChange={this.onChangeHandler}/>
+                                    <label htmlFor='description'>Description: </label>
+                                    <textarea name='description' id='description' onChange={this.onChangeHandler}>{this.state.description}</textarea>
                                     <label htmlFor='isLooking'>Are you hosting the event ?</label><br/>
                                     <input type="checkbox" name="isLooking" onClick={this.onClick}/>
                                     <div className="tp">
@@ -77,13 +87,14 @@ class AddEventPage extends Component {
 
 function mapState(state) {
     return {
-        categories: state.categories
+        categories: state.categories,
+        user: state.user
     };
 }
 
 function mapDispatch(dispatch) {
     return {
-        addCategory: (name, image) => dispatch(addCategoryAction(name, image)),
+        addEvent: (data) => dispatch(addEventAction(data)),
         setPage: (page) => dispatch(setPage(page))
     };
 }

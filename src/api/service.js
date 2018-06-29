@@ -43,12 +43,8 @@ export function getUsers() {
     return requester.get('user', '');
 }
 
-export function subscribe(subscriptions) {
-    let data = {
-        subscriptions
-    };
-
-    return requester.update('user', localStorage.getItem('userId'), 'kinvey', data);
+export function subscribe(user) {
+    return requester.update('user', user._id, 'kinvey', user);
 }
 
 export function renderCategories(){
@@ -76,4 +72,8 @@ export function getEventsFromSubscriptions(subscriptions) {
 
 export function addEvent(data){
     return requester.post('appdata', 'events', 'kinvey', data);
+}
+
+export function getEventCreator(userId){
+    return requester.get('user', userId);
 }

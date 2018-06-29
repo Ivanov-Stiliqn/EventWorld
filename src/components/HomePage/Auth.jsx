@@ -1,10 +1,14 @@
 import React, {Component} from 'react';
+import {connect} from 'react-redux';
 import {Route, Switch, withRouter} from 'react-router-dom';
 import LoginPage from '../Auth/LoginPage';
 import HomePage from '../HomePage/HomePage';
-import Discover from '../Discover/Users';
-import {connect} from 'react-redux';
 import RegisterPage from "../Auth/RegisterPage";
+import EventsPage from "../EventsPage/EventsPage";
+import AddCategoryPage from "../AddCategoryPage/AddCategoryPage";
+import AddEventPage from "../AddEventPage/AddEventPage";
+import NotFound from "../common/NotFound";
+import DetailsPage from "../DetailsPage/DetailsPage";
 
 class Auth extends Component {
     constructor(props) {
@@ -12,12 +16,15 @@ class Auth extends Component {
     }
 
     render() {
-        if(this.props.user.username){
+        if(this.props.user.username === undefined){
             return (
                 <Switch>
-                    <Route path="/discover" component={Discover}/>
-                    <Route path="/profile/:id" component={HomePage}/>
+                    <Route exact path="/login" component={LoginPage}/>
+                    <Route exact path="/register" component={RegisterPage}/>
+                    <Route exact path="/all/:page/:category" component={EventsPage}/>
+                    <Route exact path="/all/:page" component={EventsPage}/>
                     <Route exact path="/" component={HomePage}/>
+                    <Route path='*' component={NotFound}/>
                 </Switch>
             );
         }
@@ -26,7 +33,13 @@ class Auth extends Component {
             <Switch>
                 <Route exact path="/login" component={LoginPage}/>
                 <Route exact path="/register" component={RegisterPage}/>
+                <Route exact path="/add-category" component={AddCategoryPage}/>
+                <Route exact path="/add-event" component={AddEventPage}/>
+                <Route exact path="/all/:page/:category" component={EventsPage}/>
+                <Route exact path="/all/:page" component={EventsPage}/>
+                <Route exact path="/details/:id" component={DetailsPage}/>
                 <Route exact path="/" component={HomePage}/>
+                <Route path='*' component={NotFound}/>
             </Switch>
         );
     }

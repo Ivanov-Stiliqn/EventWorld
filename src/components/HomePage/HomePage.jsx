@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {setPage} from "../../actions/pageActions";
-import {renderCategoriesAction} from "../../actions/categoryActions";
 import Category from './Category'
 
 class HomePage extends Component {
@@ -9,7 +8,6 @@ class HomePage extends Component {
         super(props);
 
         this.props.setPage('Home');
-        this.props.renderCategories();
     }
 
     render() {
@@ -45,8 +43,7 @@ function mapState(state) {
 
 function mapDispatch(dispatch) {
     return {
-        setPage: (page) => dispatch(setPage(page)),
-        renderCategories: () => dispatch(renderCategoriesAction())
+        setPage: (page) => dispatch(setPage(page))
     };
 }
 

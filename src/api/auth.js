@@ -1,4 +1,5 @@
 import * as requester from './requester';
+const defaultProfileImage = 'http://blog.ramboll.com/fehmarnbelt/wp-content/themes/ramboll2/images/profile-img.jpg';
 
 export function isAuthorized() {
         return localStorage.getItem('username') !== null;
@@ -15,14 +16,15 @@ export function login(email, password) {
     }
 
     // user/register
-export function register(firstName, lastName, email, password) {
+export function register(firstName, lastName, email, password, profileImage = defaultProfileImage) {
         let userData = {
             username: email,
             password,
             firstName,
             lastName,
             isAdmin: false,
-            subscriptions: []
+            subscriptions: [],
+            profileImage
         };
 
         return requester.post('user', '', 'basic', userData);

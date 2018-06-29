@@ -1,8 +1,12 @@
-import {LOGIN_SUCCESS, REGISTER_SUCCESS, LOGOUT, AJAX_ERROR, SEED_USER} from "../actions/actionTypes";
+import {
+    LOGIN_SUCCESS, REGISTER_SUCCESS, LOGOUT, AJAX_ERROR, SEED_USER, SUBSCRIBE,
+    GET_EVENT_CREATOR
+} from "../actions/actionTypes";
 import toastr from 'toastr';
 
 export function userReducer(state = {}, action) {
     switch (action.type) {
+        case SUBSCRIBE:
         case SEED_USER:
         case LOGIN_SUCCESS:
         case REGISTER_SUCCESS:
@@ -19,4 +23,14 @@ export function userReducer(state = {}, action) {
         default:
             return state;
     }
+}
+
+export function eventCreatorReducer(state = {}, action){
+    switch(action.type){
+        case GET_EVENT_CREATOR:
+            return action.user;
+        default:
+            return state;
+    }
+
 }

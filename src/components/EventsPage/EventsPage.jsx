@@ -1,6 +1,9 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {renderEventsAction, getEventsByCategoryAction, getEventsFromSubscriptionsAction} from "../../actions/eventActions";
+import {
+    renderEventsAction, getEventsByCategoryAction, getEventsFromSubscriptionsAction,
+    subscribeAction
+} from "../../actions/eventActions";
 import Event from "./Event";
 import {setPage} from "../../actions/pageActions";
 import Pagination from "./Pagination";
@@ -18,6 +21,8 @@ class EventsPage extends Component
         };
 
         this.props.setPage('Events_Page');
+
+        this.subscribe = this.subscribe.bind(this);
     }
 
     componentDidMount(){
@@ -68,6 +73,16 @@ class EventsPage extends Component
         }
     }
 
+    subscribe(e){
+        let type = e.target.name;
+        let user = this.props.user;
+        let category = this.state.category;
+
+        this.props.subscribe(type, category, user).then(() => {
+            this.props.history.push('/all/1');
+        });
+    }
+
     renderPagination(page, dataCount, category){
         let pages = [];
         let uri = '';
@@ -109,7 +124,12 @@ class EventsPage extends Component
                     <h3 className="tittle-w3ls">All Events</h3> :
                     <div className="subscribeArea">
                         <h3 className="tittle-w3ls">Events from category {this.state.category}</h3>
-                        <button className="subscribeBtn">Subscribe</button>
+                        {this.props.user.username !== undefined ?
+                            this.props.user.subscriptions !== undefined && this.props.user.subscriptions.indexOf(this.state.category) !== -1 ?
+                                <button className="subscribeBtn" name='unsubscribe' onClick={this.subscribe}>Unsubscribe</button> :
+                                <button className="subscribeBtn" name='subscribe' onClick={this.subscribe}>Subscribe</button> :
+                            null
+                        }
                     </div>}
                 <div className="about container">
                     <div className="bloder-content">
@@ -136,6 +156,7 @@ function mapDispatch(dispatch) {
         renderEvents: () => dispatch(renderEventsAction()),
         getEventsByCategory: (category) => dispatch(getEventsByCategoryAction(category)),
         getEventsFromSubscriptions: (subs) => dispatch(getEventsFromSubscriptionsAction(subs)),
+        subscribe: (type, category, user) => dispatch(subscribeAction(type, category, user)),
         setPage: (page) => dispatch(setPage(page))
     };
 }

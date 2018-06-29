@@ -1,5 +1,5 @@
-import {FETCH_EVENTS, ADD_EVENT} from "./actionTypes";
-import {renderEvents, addEvent, getEventsByCategory, getEventsFromSubscriptions} from "../api/service";
+import {FETCH_EVENTS, ADD_EVENT, SUBSCRIBE, GET_EVENT, GET_EVENT_CREATOR} from "./actionTypes";
+import {renderEvents, addEvent, getEventsByCategory, getEventsFromSubscriptions, subscribe, getEventCreator} from "../api/service";
 import toastr from "toastr";
 
 function fetchEvents(data){
@@ -13,6 +13,20 @@ function eventAdd(data){
     return{
         type: ADD_EVENT,
         data: data
+    }
+}
+
+function subscribeUnsubscribe(data){
+    return{
+        type: SUBSCRIBE,
+        user: data
+    }
+}
+
+function eventCreator(data){
+    return{
+        type: GET_EVENT_CREATOR,
+        user: data
     }
 }
 
@@ -68,4 +82,40 @@ function getEventsFromSubscriptionsAction(subs) {
     };
 }
 
-export {renderEventsAction, addEventAction, getEventsByCategoryAction, getEventsFromSubscriptionsAction}
+function subscribeAction(type, category, user){
+    if(type === 'subscribe'){
+        if(user.subscriptions === undefined){
+            user.subscriptions = [];
+        }
+        user.subscriptions.push(category);
+    }
+    else{
+        user.subscriptions = user.subscriptions.filter(s => s !== category);
+    }
+
+    return (dispatch) => {
+        return subscribe(user)
+            .then(json => {
+                    dispatch(subscribeUnsubscribe(json));
+                },
+                error => {
+                    console.log(error);
+                    toastr.error(error.responseJSON.message);
+                });
+    };
+}
+
+function getEventCreatorAction(userId){
+    return (dispatch) => {
+        return getEventCreator(userId)
+            .then(json => {
+                    dispatch(eventCreator(json));
+                },
+                error => {
+                    console.log(error);
+                    toastr.error(error.responseJSON.message);
+                });
+    };
+}
+
+export {renderEventsAction, addEventAction, getEventsByCategoryAction, getEventsFromSubscriptionsAction, subscribeAction, getEventCreatorAction}

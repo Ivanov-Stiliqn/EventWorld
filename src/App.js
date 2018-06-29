@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
-import { Route, Switch, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import Header from './components/common/Header';
 import Footer from './components/common/Footer';
-import LoginPage from "./components/Auth/LoginPage";
-import HomePage from "./components/HomePage/HomePage";
-import RegisterPage from "./components/Auth/RegisterPage";
+import Auth from './components/HomePage/Auth';
 import { connect } from 'react-redux';
 import {logoutAction, seedUserAction} from './actions/authActions';
+import {renderCategoriesAction} from "./actions/categoryActions";
 import  './js/bootstrap.js'
 import  './js/easing.js'
 import  './js/script.js'
@@ -18,10 +17,8 @@ import './style/font-awesome.css'
 import './style/single.css'
 import './style/style.css'
 import './style/team.css'
-import EventsPage from "./components/EventsPage/EventsPage";
 import '../node_modules/toastr/build/toastr.min.css'
-import AddCategoryPage from "./components/AddCategoryPage/AddCategoryPage";
-import AddEventPage from "./components/AddEventPage/AddEventPage";
+
 
 class App extends Component {
     constructor(props) {
@@ -30,6 +27,7 @@ class App extends Component {
         this.onLogout = this.onLogout.bind(this);
 
         this.props.seedUser();
+        this.props.renderCategories();
     }
 
     onLogout() {
@@ -38,19 +36,10 @@ class App extends Component {
     }
 
     render() {
-        console.log(this.props.user.username);
         return (
             <div className="App">
                 <Header logout={this.onLogout}/>
-                <Switch>
-                    <Route exact path="/login" component={LoginPage}/>
-                    <Route exact path="/register" component={RegisterPage}/>
-                    <Route exact path="/add-category" component={AddCategoryPage}/>
-                    <Route exact path="/add-event" component={AddEventPage}/>
-                    <Route exact path="/all/:page/:category" component={EventsPage}/>
-                    <Route exact path="/all/:page" component={EventsPage}/>
-                    <Route exact path="/" component={HomePage}/>
-                </Switch>
+                <Auth/>
                 <Footer/>
             </div>
         );
@@ -64,7 +53,8 @@ function mapState(state) {
 function mapDispatch(dispatch) {
     return {
         logout: () => dispatch(logoutAction()),
-        seedUser: () => dispatch(seedUserAction())
+        seedUser: () => dispatch(seedUserAction()),
+        renderCategories: () => dispatch(renderCategoriesAction())
     };
 }
 

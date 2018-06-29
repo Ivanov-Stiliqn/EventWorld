@@ -1,4 +1,4 @@
-import {ADD_EVENT, FETCH_EVENTS} from "../actions/actionTypes";
+import {ADD_EVENT, FETCH_EVENTS, GET_EVENT} from "../actions/actionTypes";
 
 export function eventReducer(state = [], action) {
     switch (action.type) {

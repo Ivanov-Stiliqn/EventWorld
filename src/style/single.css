@@ -56,6 +56,12 @@
     background: #fff;
     padding: 6px;
 }
+
+.profileImage{
+    width: 300px;
+    height: 200px;
+}
+
 h6.media-heading {
     font-size: 1.2em;
     color: #626667;
@@ -129,6 +135,13 @@ h6.media-heading {
     color: #ff3c41;
     font-weight: 600;
 }
+
+.tech-btm h2{
+    margin: 0.6em 0;
+    color: #ff3c41;
+    font-weight: 600;
+}
+
 /*--//single--*/
 /*--technology-right--*/
 .blo-top form input[type="email"] {

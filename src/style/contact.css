@@ -232,13 +232,14 @@ span.input.input--chisato:nth-child(2) {
     background: #ff3c41;
 }
 
-.map iframe {
+.map {
 	width: 100%;
 	min-height: 453px;
 }
 
 .map {
 	padding: 0;
+	margin-top: 2em;
 }
 
 .contact_grid {
@@ -305,7 +306,7 @@ span.input.input--chisato:nth-child(2) {
 	span.input.input--chisato:nth-child(2) {
 		margin: 0;
 	}
-	.map iframe {
+	.map {
 		width: 100%;
 		min-height: 303px;
 	}
@@ -323,7 +324,7 @@ span.input.input--chisato:nth-child(2) {
 }
 
 @media(max-width:600px) {
-	.map iframe {
+	.map {
 		width: 100%;
 		min-height: 250px;
 	}

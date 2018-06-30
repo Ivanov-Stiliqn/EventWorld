@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {connect} from "react-redux";
 import {Link} from 'react-router-dom';
 import {getEventCreatorAction} from "../../actions/eventActions";
+import {searchAddress} from "../../utilities/map";
 
 class DetailsPage extends Component {
     constructor(props) {
@@ -18,6 +19,7 @@ class DetailsPage extends Component {
 
         this.setState({event: event});
         this.props.getEventCreator(event.user);
+        searchAddress(event.location);
     }
 
     componentDidUpdate(prevProps) {
@@ -28,11 +30,11 @@ class DetailsPage extends Component {
             this.setState({event: event});
             this.props.getEventCreator(event.user);
             window.scrollTo(0, 0);
+            searchAddress(event.location);
         }
     }
 
     render() {
-        console.log(this.state.event);
         return (
             <div className="banner_bottom">
                 <div className="container">
@@ -45,6 +47,9 @@ class DetailsPage extends Component {
                                     <p>{this.state.event.description} </p>
                                 </div>
                             </div>
+
+                            <h4>Location: {this.state.event.location}</h4>
+                            <div id="map-canvas" className="map"></div>
 
                             <div className="comment-top">
                                 <h4>Comment</h4>

@@ -1848,6 +1848,16 @@ p.copy-right a:hover {
         font-size: 1.2em;
     }
 }
+html {
+    height: 100%;
+}
+body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+
 @media(max-width:800px){
 	.carousel-caption h2, .carousel-caption h3 {
         font-size: 2.5em;

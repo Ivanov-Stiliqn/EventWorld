@@ -45,7 +45,22 @@
 .media-left img {
     background: #fff;
     padding: 5px;
+    max-width: unset;
+    width: 138px;
+    height: 138px;
 }
+
+.media-body p{
+    width: 100%;
+    -ms-word-break: break-all;
+    word-break: break-all;
+
+    -webkit-hyphens: auto;
+    -moz-hyphens: auto;
+    -ms-hyphens: auto;
+    hyphens: auto;
+}
+
 /*--technology-left--*/
 /*--single--*/
 .blog-grid-left img {
@@ -74,7 +89,7 @@ h6.media-heading {
 	color: #777;
   	font-size: 0.875em;
   	line-height: 1.9em;
-          margin-bottom: 3em;
+    height: 120px;
 }
 .comment-bottom input[type="text"],.comment-bottom input[type="email"],.comment-bottom textarea {
   background: none;
@@ -83,7 +98,7 @@ h6.media-heading {
   border: 1px solid #e2e2e2;
   padding:0.7em 1em;
   font-size:0.9em;
-  color: #e2e2e2;
+  color: #919191;
   margin:0 0 0.7em ;
    letter-spacing: 2px;
 }

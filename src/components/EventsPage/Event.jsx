@@ -24,7 +24,7 @@ export default class Event extends Component{
                         <li><Link to={`/details/${this.props.data._id}`}><span>Readmore</span></Link></li>
                     </ul>
                 </div>
-                <className class="clear"></className>
+                <div className="clear"></div>
             </div>
         )
     }

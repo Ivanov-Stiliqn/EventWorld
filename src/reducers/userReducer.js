@@ -7,6 +7,9 @@ import toastr from 'toastr';
 export function userReducer(state = {}, action) {
     switch (action.type) {
         case SUBSCRIBE:
+            let newUser = action.user;
+            localStorage.setItem('user', JSON.stringify(newUser));
+            return newUser;
         case SEED_USER:
         case LOGIN_SUCCESS:
         case REGISTER_SUCCESS:

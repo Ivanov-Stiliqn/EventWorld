@@ -1,8 +1,10 @@
 import React, {Component} from 'react';
 import {connect} from "react-redux";
 import {Link} from 'react-router-dom';
-import {getEventCreatorAction} from "../../actions/eventActions";
+import {getEventCreatorAction, participateInEventAction} from "../../actions/eventActions";
 import {searchAddress} from "../../utilities/map";
+import CommentList from './CommentList';
+import toastr from 'toastr';
 
 class DetailsPage extends Component {
     constructor(props) {
@@ -11,6 +13,8 @@ class DetailsPage extends Component {
         this.state = {
             event: {}
         };
+
+        this.participate = this.participate.bind(this);
     }
 
     componentDidMount() {
@@ -34,7 +38,19 @@ class DetailsPage extends Component {
         }
     }
 
+    participate(e){
+        let type = e.target.name;
+        this.props.participate(this.state.event, this.props.user._id, type).then(() => {
+            if(type === 'participate'){
+                toastr.success('Wohhoooo you have found your event!');
+            }else{
+                toastr.success('Cancel participation confirmed!');
+            }
+        });
+    }
+
     render() {
+        const usersGoing = this.state.event.usersGoing === undefined ? 0 : this.state.event.usersGoing.length;
         return (
             <div className="banner_bottom">
                 <div className="container">
@@ -51,65 +67,7 @@ class DetailsPage extends Component {
                             <h4>Location: {this.state.event.location}</h4>
                             <div id="map-canvas" className="map"></div>
 
-                            <div className="comment-top">
-                                <h4>Comment</h4>
-                                <div className="media-left">
-                                    <a href="#">
-                                        <img src="images/t1.jpg" alt=""/>
-                                    </a>
-                                </div>
-                                <div className="media-body">
-                                    <h6 className="media-heading">Richard Spark</h6>
-                                    <p>Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante
-                                        sollicitudin commodo. Cras purus odio,
-                                        vestibulum in vulputate at, tempus viverra turpis.</p>
-
-                                    <div className="media second">
-                                        <div className="media-left">
-                                            <a href="#">
-                                                <img src="images/t3.jpg" alt=""/>
-                                            </a>
-                                        </div>
-                                        <div className="media-body">
-                                            <h6 className="media-heading">Joseph Goh</h6>
-                                            <p>Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque
-                                                ante sollicitudin commodo. Cras purus odio,
-                                                vestibulum in vulputate at, tempus viverra turpis.</p>
-
-                                            <div className="media">
-                                                <div className="media-left">
-                                                    <a href="#">
-                                                        <img src="images/t2.jpg" alt=""/>
-                                                    </a>
-                                                </div>
-                                                <div className="media-body">
-                                                    <h6 className="media-heading">Melinda Dee</h6>
-                                                    <p>Cras sit amet nibh libero, in gravida nulla. Nulla vel metus
-                                                        scelerisque ante sollicitudin commodo. Cras purus
-                                                        odio, vestibulum in vulputate at, tempus viverra turpis.</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-
-                                </div>
-                            </div>
-                            <div className="comment">
-                                <h3>Leave a Comment</h3>
-                                <div className="comment-bottom">
-                                    <form action="#" method="post">
-                                        <input type="text" name="Name" placeholder="Name" required=""/>
-                                        <input type="email" name="Email" placeholder="Email" required=""/>
-
-                                        <input type="text" name="Subject" placeholder="Subject" required=""/>
-
-                                        <textarea name="Message" placeholder="Message..." required=""></textarea>
-
-                                        <input type="submit" value="Send"/>
-                                    </form>
-                                </div>
-                            </div>
+                           <CommentList event={this.state.event._id}/>
                         </div>
                     </div>
 
@@ -123,15 +81,21 @@ class DetailsPage extends Component {
                         <div className="blo-top">
                             <div className="tech-btm">
                                 <h4>{this.state.event.date}</h4>
-                                <div>People going: {this.state.event.usersGoing} / {this.state.event.availablePlaces}</div>
-                                <progress max={this.state.event.availablePlaces} value={this.state.event.usersGoing}>
+                                <div>People going: {usersGoing} / {this.state.event.availablePlaces}</div>
+                                <progress max={this.state.event.availablePlaces} value={usersGoing}>
                                     <div className="progress-bar">
                                         <span style={{width: '100%'}}>Progress:</span>
                                     </div>
                                 </progress>
-                                <div>
-                                    <button className='participateBtn'>Participate</button>
-                                </div>
+                                {this.state.event.usersGoing === undefined || this.state.event.usersGoing.indexOf(this.props.user._id) === -1 ?
+                                    <div>
+                                        <button className='participateBtn' name='participate' onClick={this.participate}>Participate</button>
+                                    </div> :
+                                    <div>
+                                        <button className='participateBtn' name='cancel' onClick={this.participate}>Cancel</button>
+                                    </div>
+                                }
+
 
                                 <div className="clearfix"></div>
                             </div>
@@ -176,7 +140,8 @@ function mapState(state) {
 
 function mapDispatch(dispatch) {
     return {
-        getEventCreator: (userId) => dispatch(getEventCreatorAction(userId))
+        getEventCreator: (userId) => dispatch(getEventCreatorAction(userId)),
+        participate: (event, userId, type) => dispatch(participateInEventAction(event, userId, type))
     };
 }
 

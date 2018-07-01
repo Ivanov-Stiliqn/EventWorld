@@ -15,5 +15,10 @@ export const ADD_CATEGORY = 'ADD_CATEGORY';
 export const ADD_EVENT = 'ADD_EVENT';
 
 export const SUBSCRIBE = 'SUBSCRIBE';
+export const PARTICIPATE = 'PARTICIPATE';
+export const CANCEL_PARTICIPATION = 'CANCEL_PARTICIPATION';
 
 export const GET_EVENT_CREATOR = 'GET_EVENT_CREATOR';
+
+export const FETCH_COMMENTS = 'FETCH_COMMENTS';
+export const ADD_COMMENT = 'ADD_COMMENT';

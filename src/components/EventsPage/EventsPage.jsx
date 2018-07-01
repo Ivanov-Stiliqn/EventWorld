@@ -7,6 +7,7 @@ import {
 import Event from "./Event";
 import {setPage} from "../../actions/pageActions";
 import Pagination from "./Pagination";
+import toastr from "toastr";
 
 class EventsPage extends Component
 {
@@ -79,6 +80,13 @@ class EventsPage extends Component
         let category = this.state.category;
 
         this.props.subscribe(type, category, user).then(() => {
+            if(type === 'subscribe'){
+                toastr.success(`Subscribed to category: ${category}`);
+            }
+            else{
+                toastr.success(`Unsubscribed from category: ${category}`);
+            }
+
             this.props.history.push('/all/1');
         });
     }

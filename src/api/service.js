@@ -77,3 +77,15 @@ export function addEvent(data){
 export function getEventCreator(userId){
     return requester.get('user', userId);
 }
+
+export function participate(event){
+    return requester.update('appdata', 'events/' + event._id, 'kinvey' ,event);
+}
+
+export function renderComments(eventId){
+    return requester.get('appdata', `comments?query={"eventId":"${eventId}"}`);
+}
+
+export function addComment(comment) {
+    return requester.post('appdata', 'comments', 'kinvey', comment);
+}

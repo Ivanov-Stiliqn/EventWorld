@@ -21,9 +21,9 @@ export default class Pagination extends Component{
                     <li><Link to={url + previous + uri} className="previous">Previous</Link></li>
                     {pages.map((p,i) => {
                             if(p === Number(current)){
-                                return <li><Link to={url + p + uri} className="current" key={i}>{p}</Link></li>
+                                return <li key={i}><Link to={url + p + uri} className="current">{p}</Link></li>
                             }else{
-                                return <li><Link to={url + p + uri} key={i}>{p}</Link></li>
+                                return <li key={i}><Link to={url + p + uri}>{p}</Link></li>
                             }
                         }
                         )}

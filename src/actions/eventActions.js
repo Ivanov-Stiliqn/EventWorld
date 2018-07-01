@@ -1,5 +1,5 @@
-import {FETCH_EVENTS, ADD_EVENT, SUBSCRIBE, GET_EVENT, GET_EVENT_CREATOR} from "./actionTypes";
-import {renderEvents, addEvent, getEventsByCategory, getEventsFromSubscriptions, subscribe, getEventCreator} from "../api/service";
+import {FETCH_EVENTS, ADD_EVENT, SUBSCRIBE, GET_EVENT, GET_EVENT_CREATOR, PARTICIPATE} from "./actionTypes";
+import {renderEvents, addEvent, getEventsByCategory, getEventsFromSubscriptions, subscribe, getEventCreator, participate} from "../api/service";
 import toastr from "toastr";
 
 function fetchEvents(data){
@@ -27,6 +27,13 @@ function eventCreator(data){
     return{
         type: GET_EVENT_CREATOR,
         user: data
+    }
+}
+
+function participateInEvent(data) {
+    return{
+        type: PARTICIPATE,
+        data: data
     }
 }
 
@@ -118,4 +125,27 @@ function getEventCreatorAction(userId){
     };
 }
 
-export {renderEventsAction, addEventAction, getEventsByCategoryAction, getEventsFromSubscriptionsAction, subscribeAction, getEventCreatorAction}
+function participateInEventAction(event, userId, type) {
+    if(type === 'participate'){
+        if(event.usersGoing === undefined){
+            event.usersGoing = [];
+        }
+
+        event.usersGoing.push(userId);
+    }
+    else{
+        event.usersGoing = event.usersGoing.filter(u => u !== userId);
+    }
+
+    return (dispatch) => {
+        return participate(event)
+            .then(json => {
+                    dispatch(participateInEvent(json));
+                },
+                error => {
+                    console.log(error);
+                    toastr.error(error.responseJSON.message);
+                });
+    };
+}
+export {renderEventsAction, addEventAction, getEventsByCategoryAction, getEventsFromSubscriptionsAction, subscribeAction, getEventCreatorAction, participateInEventAction}

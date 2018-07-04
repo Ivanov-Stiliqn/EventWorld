@@ -29,6 +29,11 @@ class CommentList extends Component{
 
     onSubmitHandler(e) {
         e.preventDefault();
+        if(this.state.content === ''){
+            toastr.error('Comment cannot be empty');
+            return;
+        }
+
         let comment = {
             content: this.state.content,
             userFullname: this.props.user.firstName + ' ' + this.props.user.lastName,
@@ -55,8 +60,6 @@ class CommentList extends Component{
 
     render(){
         let commentGroups = this.divideCommentsIntoGroups();
-        console.log(commentGroups);
-
         return(
             <div>
                 {this.props.comments.length > 0 ?

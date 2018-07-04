@@ -1,5 +1,5 @@
-import {ADD_COMMENT, FETCH_COMMENTS} from "./actionTypes";
-import {addComment, renderComments} from "../api/service";
+import {ADD_COMMENT, DELETE_COMMENT, FETCH_COMMENTS} from "./actionTypes";
+import {addComment, removeComment, renderComments} from "../api/service";
 import toastr from "toastr";
 
 
@@ -17,6 +17,13 @@ function commentAdd(data) {
     }
 }
 
+function deleteComment(id) {
+    return{
+        type: DELETE_COMMENT,
+        id: id
+    }
+}
+
 function fetchCommentsAction(eventId) {
     return (dispatch) => {
         return renderComments(eventId)
@@ -24,8 +31,7 @@ function fetchCommentsAction(eventId) {
                     dispatch(fetchComments(json));
                 },
                 error => {
-                    console.log(error);
-                    toastr.error(error.responseJSON.message);
+                    toastr.error(error.responseJSON.description);
                 });
     };
 }
@@ -37,10 +43,22 @@ function addCommentAction(comment) {
                     dispatch(commentAdd(json));
                 },
                 error => {
-                    console.log(error);
-                    toastr.error(error.responseJSON.message);
+                    toastr.error(error.responseJSON.description);
                 });
     };
 }
 
-export {fetchCommentsAction, addCommentAction}
+function deleteCommentAction(id) {
+    return (dispatch) => {
+        return removeComment(id)
+            .then(json => {
+                    dispatch(deleteComment(id));
+                    toastr.success('Comment deleted !');
+                },
+                error => {
+                    toastr.error(error.responseJSON.description);
+                });
+    };
+}
+
+export {fetchCommentsAction, addCommentAction, deleteCommentAction}

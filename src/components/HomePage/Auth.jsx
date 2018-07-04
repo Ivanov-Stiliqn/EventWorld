@@ -9,6 +9,7 @@ import AddCategoryPage from "../AddCategoryPage/AddCategoryPage";
 import AddEventPage from "../AddEventPage/AddEventPage";
 import NotFound from "../common/NotFound";
 import DetailsPage from "../DetailsPage/DetailsPage";
+import EditEvent from "../EventsPage/EditEvent";
 
 class Auth extends Component {
     constructor(props) {
@@ -29,14 +30,32 @@ class Auth extends Component {
             );
         }
 
+        if(this.props.user.isAdmin === 'true'){
+            return (
+                <Switch>
+                    <Route exact path="/login" component={LoginPage}/>
+                    <Route exact path="/register" component={RegisterPage}/>
+                    <Route exact path="/add-category" component={AddCategoryPage}/>
+                    <Route exact path="/add-event" component={AddEventPage}/>
+                    <Route exact path="/edit-event/:id" component={EditEvent}/>
+                    <Route exact path="/all/:page/:category" component={EventsPage}/>
+                    <Route exact path="/all/:page" component={EventsPage}/>
+                    <Route exact path="/details/:id" component={DetailsPage}/>
+                    <Route exact path="/" component={HomePage}/>
+                    <Route path='*' component={NotFound}/>
+                </Switch>
+            );
+        }
+
         return (
             <Switch>
                 <Route exact path="/login" component={LoginPage}/>
                 <Route exact path="/register" component={RegisterPage}/>
-                <Route exact path="/add-category" component={AddCategoryPage}/>
                 <Route exact path="/add-event" component={AddEventPage}/>
+                <Route exact path="/edit-event/:id" component={EditEvent}/>
                 <Route exact path="/all/:page/:category" component={EventsPage}/>
                 <Route exact path="/all/:page" component={EventsPage}/>
+                <Route exact path="/add-category" component={AddCategoryPage}/>
                 <Route exact path="/details/:id" component={DetailsPage}/>
                 <Route exact path="/" component={HomePage}/>
                 <Route path='*' component={NotFound}/>

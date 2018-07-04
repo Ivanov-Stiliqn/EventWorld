@@ -3,6 +3,7 @@ import { pageReducer } from './pageReducer';
 import { categoryReducer } from './categoryReducer';
 import { eventReducer } from './eventReducer';
 import {commentReducer} from "./commentReducer";
+import {redirectReducer} from "./redirectReducer";
 
 export default {
     user: userReducer,
@@ -10,5 +11,6 @@ export default {
     categories: categoryReducer,
     events: eventReducer,
     creator: eventCreatorReducer,
-    comments: commentReducer
+    comments: commentReducer,
+    redirect: redirectReducer
 };

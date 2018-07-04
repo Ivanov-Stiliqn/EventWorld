@@ -22,3 +22,9 @@ export const GET_EVENT_CREATOR = 'GET_EVENT_CREATOR';
 
 export const FETCH_COMMENTS = 'FETCH_COMMENTS';
 export const ADD_COMMENT = 'ADD_COMMENT';
+
+export const DELETE_CATEGORY = 'DELETE_CATEGORY';
+export const DELETE_COMMENT = 'DELETE_COMMENT';
+export const DELETE_EVENT = 'DELETE_EVENT';
+
+export const EDIT_EVENT = 'EDIT_EVENT';

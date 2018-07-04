@@ -43,7 +43,7 @@ class EventsPage extends Component
         category = category === undefined ? '' : category;
         let page = this.props.match.params.page;
 
-        if(page !== prevProps.match.params.page || category !== prevState.category){
+        if(page !== prevProps.match.params.page || category !== prevState.category || prevProps.events.length !== this.props.events.length){
             window.scrollTo(0, 0);
             if(category !== prevState.category){
                 this.fetchData(category).then(() => {
@@ -80,14 +80,9 @@ class EventsPage extends Component
         let category = this.state.category;
 
         this.props.subscribe(type, category, user).then(() => {
-            if(type === 'subscribe'){
-                toastr.success(`Subscribed to category: ${category}`);
+            if(this.props.redirect !== ''){
+                this.props.history.push(this.props.redirect);
             }
-            else{
-                toastr.success(`Unsubscribed from category: ${category}`);
-            }
-
-            this.props.history.push('/all/1');
         });
     }
 
@@ -155,7 +150,8 @@ class EventsPage extends Component
 function mapState(state) {
     return {
         user: state.user,
-        events: state.events
+        events: state.events,
+        redirect: state.redirect
     };
 }
 

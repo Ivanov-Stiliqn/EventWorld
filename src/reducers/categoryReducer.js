@@ -1,4 +1,4 @@
-import {ADD_CATEGORY, FETCH_CATEGORIES} from "../actions/actionTypes";
+import {ADD_CATEGORY, DELETE_CATEGORY, FETCH_CATEGORIES} from "../actions/actionTypes";
 
 export function categoryReducer(state = [], action) {
     switch (action.type) {
@@ -8,6 +8,8 @@ export function categoryReducer(state = [], action) {
             let newState = state.slice();
             newState.push(action.data);
             return newState;
+        case DELETE_CATEGORY:
+            return state.filter(e => e._id !== action.id);
         default:
             return state;
     }

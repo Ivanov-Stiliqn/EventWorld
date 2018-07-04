@@ -299,3 +299,15 @@ h6.media-heading {
     }
 }
 
+.comment-border{
+    border: 1px solid black;
+}
+
+.deleteArea {
+    display: inline-block;
+}
+
+.deleteArea h6{
+    display: inline-block;
+}
+

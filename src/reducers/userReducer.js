@@ -15,10 +15,8 @@ export function userReducer(state = {}, action) {
         case REGISTER_SUCCESS:
             let user = action.user;
             localStorage.setItem('user', JSON.stringify(user));
-            toastr.success(`Welcome ${user.firstName}`);
             return user;
         case LOGOUT:
-            toastr.success(`See you soon ! Logout successful.`);
             localStorage.clear();
             return {};
         case AJAX_ERROR:

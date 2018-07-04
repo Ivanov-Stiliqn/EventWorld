@@ -38,7 +38,7 @@ class Header extends Component{
                                     <ul className="nav navbar-nav">
                                         <li className={currentPage === 'Home' ? 'active' : null}><Link to='/'>Home</Link></li>
                                         {user.username && <li className={currentPage === 'Profile' ? 'active' : null}><Link to='/profile'>Profile</Link></li>}
-                                        {user.username && <li className={currentPage === 'Add_Category' ? 'active' : null}><Link to='/add-category'>Add Category</Link></li>}
+                                        {user.isAdmin === 'true' && <li className={currentPage === 'Add_Category' ? 'active' : null}><Link to='/add-category'>Add Category</Link></li>}
                                         {user.username && <li className={currentPage === 'Add_Event' ? 'active' : null}><Link to='/add-event'>Add Event</Link></li>}
                                         {user.username && <li className={currentPage === 'Events_Page' ? 'active' : null}><Link to='/all/1'>Events</Link></li>}
                                         {!user.username && <li className={currentPage === 'Login' ? 'active' : null}><Link to='/login'>Login</Link></li>}

@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 
 export default class Input extends Component {
     render() {
-        const { name, type = 'text', value, onChange, label, placeholder } = this.props;
+        const { name, type = 'text', value, onChange, label, placeholder, minLength, pattern } = this.props;
         return (
             <div>
                 <label htmlFor={name}>{label}</label>
@@ -13,7 +13,10 @@ export default class Input extends Component {
                     id={name}
                     type={type}
                     value={value}
-                    placeholder={placeholder}/>
+                    placeholder={placeholder}
+                    required
+                    pattern={pattern}
+                    minLength={minLength}/>
             </div>
         );
     }

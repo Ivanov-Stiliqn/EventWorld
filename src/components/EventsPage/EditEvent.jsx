@@ -3,29 +3,30 @@ import {connect} from "react-redux";
 import {setPage} from "../../actions/pageActions";
 import toastr from 'toastr';
 import Input from '../common/Input';
-import {addEventAction} from "../../actions/eventActions";
+import {addEventAction, editEventAction} from "../../actions/eventActions";
 import {validateEvent, validateLogin} from "../../api/validator";
 
-class AddEventPage extends Component {
+class EditEvent extends Component {
     constructor(props) {
         super(props);
 
+        let event = this.props.events.filter(e => e._id === this.props.match.params.id)[0];
+
         this.state = {
-            name: '',
-            image: '',
-            date: '',
-            category: '',
-            availablePlaces: '',
-            location: '',
-            description: '',
-            isLooking: true
+            _id: event._id,
+            name: event.name,
+            image: event.image,
+            date: event.date,
+            category: event.category,
+            availablePlaces: event.availablePlaces,
+            location: event.location,
+            description: event.description,
+            isLooking: event.isLooking === 'true'
         };
 
         this.onChangeHandler = this.onChangeHandler.bind(this);
         this.onSubmitHandler = this.onSubmitHandler.bind(this);
         this.onClick = this.onClick.bind(this);
-
-        this.props.setPage('Add_Event');
     }
 
     onClick(e){
@@ -46,7 +47,7 @@ class AddEventPage extends Component {
 
         let data = Object.assign({}, this.state);
         data.user = this.props.user._id;
-        this.props.addEvent(data).then(() => {
+        this.props.editEvent(data).then(() => {
             if(this.props.redirect !== ''){
                 this.props.history.push(this.props.redirect);
             }
@@ -59,7 +60,7 @@ class AddEventPage extends Component {
             <div className="banner_bottom">
                 <div className="container">
                     <div className="tittle-w3ls_head">
-                        <h3 className="tittle-w3ls three">Add Event</h3>
+                        <h3 className="tittle-w3ls three">Edit Event</h3>
                     </div>
                     <div className="inner_sec_info_wthree_agile">
                         <div className="signin-form">
@@ -68,6 +69,10 @@ class AddEventPage extends Component {
                                     <label htmlFor='category'>Category</label>
                                     <select onChange={this.onChangeHandler} name='category'>
                                         {this.props.categories.map((c, i) => {
+                                            if(c === this.state.category){
+                                                return <option value={c.name} key={i} selected>{c.name}</option>
+                                            }
+
                                             return <option value={c.name} key={i}>{c.name}</option>
                                         })}
                                     </select>
@@ -79,9 +84,13 @@ class AddEventPage extends Component {
                                     <label htmlFor='description'>Description: </label>
                                     <textarea name='description' id='description' required minLength='10' maxLength='1000' onChange={this.onChangeHandler}>{this.state.description}</textarea>
                                     <label htmlFor='isLooking'>Are you hosting the event ?</label><br/>
-                                    <input type="checkbox" name="isLooking" onClick={this.onClick}/>
+                                    {this.state.isLooking === true ?
+                                        <input type="checkbox" name="isLooking" onClick={this.onClick}/> :
+                                        <input type="checkbox" name="isLooking" checked onClick={this.onClick}/>
+                                    }
+
                                     <div className="tp">
-                                        <input type="submit" value="Create"/>
+                                        <input type="submit" value="Edit"/>
                                     </div>
                                 </form>
                             </div>
@@ -96,6 +105,7 @@ class AddEventPage extends Component {
 function mapState(state) {
     return {
         categories: state.categories,
+        events: state.events,
         user: state.user,
         redirect: state.redirect
     };
@@ -103,9 +113,8 @@ function mapState(state) {
 
 function mapDispatch(dispatch) {
     return {
-        addEvent: (data) => dispatch(addEventAction(data)),
-        setPage: (page) => dispatch(setPage(page))
+        editEvent: (data) => dispatch(editEventAction(data)),
     };
 }
 
-export default connect(mapState, mapDispatch)(AddEventPage);
+export default connect(mapState, mapDispatch)(EditEvent);

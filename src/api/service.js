@@ -89,3 +89,23 @@ export function renderComments(eventId){
 export function addComment(comment) {
     return requester.post('appdata', 'comments', 'kinvey', comment);
 }
+
+export function removeCategory(id) {
+    return requester.remove('appdata', 'categories/' + id);
+}
+
+export function removeComment(id) {
+    return requester.remove('appdata', 'comments/' + id);
+}
+
+export function removeEvent(id) {
+    return requester.remove('appdata', 'events/' + id);
+}
+
+export function removeCommentsForEvent(eventId) {
+    return requester.remove('appdata', `comments?query={"eventId":"${eventId}"}`);
+}
+
+export function editEvent(event) {
+    return requester.update('appdata', 'events/' + event._id, 'kinvey', event);
+}

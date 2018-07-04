@@ -38,13 +38,13 @@ export function seedUser(user){
 
 function seedUserAction() {
     return (dispatch) => {
-        let user = localStorage.getItem('user');
-        console.log(user === null);
-        if(user !== null){
-            dispatch(seedUser(JSON.parse(user)));
+        let json = localStorage.getItem('user');
+        if(json !== null){
+            let user = JSON.parse(json);
+            dispatch(seedUser(user));
+            toastr.success(`Welcome ${user.firstName}`);
         }
     };
-
 }
 
 function registerAction(firstName, lastName, email, password) {
@@ -52,10 +52,11 @@ function registerAction(firstName, lastName, email, password) {
         return register(firstName, lastName, email, password)
             .then(json => {
                     dispatch(registerSuccess(json));
+                    toastr.success(`Welcome ${json.firstName}`);
                 },
                 error => {
-                    toastr.error(error);
                     dispatch(ajax_error());
+                    toastr.error(error.responseJSON.description);
                 });
     };
 }
@@ -65,17 +66,19 @@ function loginAction(email, password) {
         return login(email, password)
             .then(json => {
                 dispatch(loginSuccess(json));
+                toastr.success(`Welcome ${json.firstName}`);
             },
                 error => {
-                    toastr.error(error);
-                    dispatch(ajax_error())
+                    dispatch(ajax_error());
+                    toastr.error(error.responseJSON.description);
                 });
     };
 }
 
 function logoutAction() {
     return (dispatch) => {
-        dispatch(logoutSuccess())
+        dispatch(logoutSuccess());
+        toastr.success('See you soon! Logout successful.');
     };
 }
 

@@ -147,16 +147,21 @@ ul.dc_paginationA03 li a:hover, ul.dc_paginationA03 li a.current {
 	padding: 10px 0px;
 }
 .blog-img{
-	float:left;
 	cursor:pointer;
 	background: #fff;
 	padding: 10px;
 	box-shadow: 0px 0px 10px rgb(223, 223, 223);
-	width: 42%;
+
 }
 .blog-img:hover{
 	opacity: 0.8;
 }
+
+	.left-side{
+		float: left;
+		width: 42%;
+	}
+
 .bloger-grid {
 	width: 76%;
 	float: left;
@@ -325,3 +330,229 @@ ul.dc_paginationA03 li a:hover, ul.dc_paginationA03 li a.current {
 	font-size: 14px;
 	font-family: 'Carrois Gothic SC', sans-serif;
 }
+
+	@media screen and (max-width: 1024px) {
+		.wrap{
+			width:90%;
+		}
+		.boxgrid {
+			width: 30.7%;
+			margin: 10px 19.8px 10px 0px;
+		}
+		.left-side{
+			width:42%;
+			padding-top: 7px;
+		}
+		.left-side {
+			width: 37%;
+		}
+		.services-sidebar{
+			width:23%;
+
+		}
+		.bloger-grid {
+			width: 100%;
+		}
+		.bloder-content{
+			width:73%;
+		}
+		.contact-form{
+			float:left;
+			width: 49%;
+			padding:0px;
+		}
+		.contact-form form textarea, .contact-form form input[type=text]{
+			width:92%;
+		}
+		.blog-box1 {
+			width: 94%;
+			padding: 20px;
+		}
+		.services-sidebar {
+			width: 24%;
+		}
+		.footerlinks {
+			width: 36%;
+		}
+	}
+	@media screen and (max-width: 800px) {
+		.wrap{
+			width:90%;
+		}
+
+		.left-side {
+			width: 70%;
+		}
+		.services-sidebar {
+			width: 28%;
+		}
+		.bloger-content {
+			float: left;
+			width: 90%;
+			margin-left: 2%;
+			padding-top: 16px;
+		}
+		.blog-box1 {
+			width: 87%;
+			padding: 20px;
+		}
+		.bloger-content ul li {
+			display: inherit;
+		}
+		.product-grid, .last1 {
+			width: 23.9%;
+		}
+		.contact-form {
+			width: 100%;
+			margin-bottom: 1em;
+		}
+		.map iframe{
+			width:100%;
+		}
+		.contact-form form textarea, .contact-form form input[type=text] {
+			width: 97%;
+		}
+		.contact-form form textarea{
+			resize:none;
+		}
+	}
+	@media screen and (max-width: 768px){
+		.footerlinks {
+			width: 42%;
+		}
+	}
+	@media screen and (max-width: 667px){
+		.footerlinks {
+			width: 48%;
+		}
+	}
+	@media screen and (max-width: 600px){
+		.wrap{
+			width:90%;
+		}
+		.bloder-content {
+			width: 100%;
+		}
+		.blog-box1 {
+			width: 88.6%;
+		}
+		.logo {
+			float:none;
+			text-align:center;
+			padding: 34.5px 0px 0px 0px;
+		}
+		.header-nav {
+			float:none;
+			text-align:center;
+		}
+		.header-nav ul li a{
+			padding:0px 10px;
+		}
+		.header-nav ul li {
+			display: inline;
+		}
+		.boxgrid {
+			width: 45.4%;
+		}
+		.left-side {
+			width: 80%;
+			padding-top: 7px;
+		}
+		.services-sidebar {
+			width: 100%;
+		}
+		.bloger-content {
+			width: 80%;
+			margin:0px;
+		}
+		.bloger-content ul li:last-child {
+			float: left;
+			margin-top: 10px;
+		}
+		.footer p {
+			width:100%;
+			padding:0px;
+		}
+		.footerlinks{
+			width: 60%;
+		}
+		.product-grid, .last1 {
+			width: 30%;
+		}
+		.product-grids h6{
+			font-size:22px;
+		}
+	}
+	@media screen and (max-width: 568px){
+		.header-nav1 ul li a {
+			padding: 18px 10px 17px 9px;
+		}
+	}
+	@media screen and (max-width: 480px){
+		.header-nav1 ul {
+			float: left;
+			width: 100%;
+			text-align: center;
+		}
+		.search-bar {
+			float: left;
+			width: 47%;
+			margin-top: 1em;
+			margin: 1em 7em 0;
+		}
+		.header-nav1 ul li a {
+			padding: 12px 10px 12px 9px;
+		}
+	}
+	@media screen and (max-width: 414px){
+		.search-bar {
+			float: left;
+			width: 55%;
+			margin: 1em 5em 0;
+		}
+		ul.dc_paginationA03 li a {
+			padding: 7px 7px 7px 7px;
+		}
+		.footerlinks {
+			width: 73%;
+		}
+		.logo {
+			padding: 15px 0px 0px 0px;
+		}
+	}
+	@media screen and (max-width: 384px){
+		.wrap {
+			width: 89%;
+		}
+		.search-bar {
+			width: 58%;
+			margin: 1em 4em 0;
+		}
+		.footerlinks {
+			width: 80%;
+		}
+	}
+	@media screen and (max-width: 375px){
+		.wrap {
+			width: 88%;
+		}
+		.search-bar {
+			width: 60%;
+			margin: 1em 4em 0;
+		}
+	}
+	@media screen and (max-width: 320px){
+		.wrap {
+			width: 87%;
+		}
+		.header-nav1 ul li a {
+			padding: 10px 6px 10px 6px;
+		}
+		.search-bar {
+			width: 72%;
+			margin: 1em 2em 0;
+		}
+		.footerlinks {
+			width: 100%;
+		}
+	}

@@ -1,6 +1,7 @@
-import {FETCH_CATEGORIES, ADD_CATEGORY} from "./actionTypes";
-import {renderCategories, addCategory} from "../api/service";
+import {FETCH_CATEGORIES, ADD_CATEGORY, DELETE_CATEGORY} from "./actionTypes";
+import {renderCategories, addCategory, removeCategory} from "../api/service";
 import toastr from "toastr";
+import {ajax_error} from "./authActions";
 
 function fetchCateogires(data){
     return{
@@ -16,6 +17,13 @@ function categoryAdd(data){
     }
 }
 
+function deleteCategory(id){
+    return{
+        type: DELETE_CATEGORY,
+        id: id
+    }
+}
+
 function renderCategoriesAction() {
     return (dispatch) => {
         return renderCategories()
@@ -23,8 +31,7 @@ function renderCategoriesAction() {
                     dispatch(fetchCateogires(json));
                 },
                 error => {
-                    console.log(error);
-                    toastr.error(error.responseJSON.message);
+                    toastr.error(error.responseJSON.description);
                 });
     };
 }
@@ -34,12 +41,26 @@ function addCategoryAction(name, image){
         return addCategory(name, image)
             .then(json => {
                     dispatch(categoryAdd(json));
+                    toastr.success('Category added !');
                 },
                 error => {
-                    console.log(error);
-                    toastr.error(error.responseJSON.message);
+                    dispatch(ajax_error());
+                    toastr.error(error.responseJSON.description);
                 });
     };
 }
 
-export {renderCategoriesAction, addCategoryAction}
+function deleteCategoryAction(id){
+    return (dispatch) => {
+        return removeCategory(id)
+            .then(json => {
+                    dispatch(deleteCategory(id));
+                    toastr.success('Category removed !');
+                },
+                error => {
+                    toastr.error(error.responseJSON.description);
+                });
+    };
+}
+
+export {renderCategoriesAction, addCategoryAction, deleteCategoryAction}

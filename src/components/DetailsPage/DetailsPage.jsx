@@ -40,13 +40,7 @@ class DetailsPage extends Component {
 
     participate(e){
         let type = e.target.name;
-        this.props.participate(this.state.event, this.props.user._id, type).then(() => {
-            if(type === 'participate'){
-                toastr.success('Wohhoooo you have found your event!');
-            }else{
-                toastr.success('Cancel participation confirmed!');
-            }
-        });
+        this.props.participate(this.state.event, this.props.user._id, type);
     }
 
     render() {

@@ -4,6 +4,7 @@ import {setPage} from "../../actions/pageActions";
 import {addCategoryAction} from "../../actions/categoryActions";
 import toastr from 'toastr';
 import Input from '../common/Input';
+import {validateCateogry} from "../../api/validator";
 
 class AddCategoryPage extends Component {
     constructor(props) {
@@ -26,9 +27,17 @@ class AddCategoryPage extends Component {
 
     onSubmitHandler(e) {
         e.preventDefault();
+        let check = validateCateogry(this.state.name, this.state.image);
+        if(check !== ''){
+            toastr.error(check);
+            return;
+        }
+
+
         this.props.addCategory(this.state.name, this.state.image).then(() => {
-                this.props.history.push('/');
-                toastr.success('Category added !');
+                if(this.props.redirect !== '') {
+                    this.props.history.push(this.props.redirect);
+                }
             }
         );
 
@@ -45,8 +54,8 @@ class AddCategoryPage extends Component {
                         <div className="signin-form">
                             <div className="login-form-rec">
                                 <form onSubmit={this.onSubmitHandler}>
-                                    <Input type="text" name="name" placeholder="Category" required="" label='Category' value={this.state.name} onChange={this.onChangeHandler}/>
-                                    <Input type="text" name="image" placeholder="Image" required="" label='Image' value={this.state.image} onChange={this.onChangeHandler}/>
+                                    <Input type="text" name="name" placeholder="Category" label='Category' value={this.state.name} onChange={this.onChangeHandler}/>
+                                    <Input type="url" name="image" placeholder="Image" label='Image' value={this.state.image} onChange={this.onChangeHandler}/>
                                     <div className="tp">
                                         <input type="submit" value="Create"/>
                                     </div>
@@ -60,8 +69,10 @@ class AddCategoryPage extends Component {
     }
 }
 
-function mapState() {
-    return {};
+function mapState(state) {
+    return {
+        redirect: state.redirect
+    };
 }
 
 function mapDispatch(dispatch) {

@@ -1,6 +1,13 @@
-import {FETCH_EVENTS, ADD_EVENT, SUBSCRIBE, GET_EVENT, GET_EVENT_CREATOR, PARTICIPATE} from "./actionTypes";
-import {renderEvents, addEvent, getEventsByCategory, getEventsFromSubscriptions, subscribe, getEventCreator, participate} from "../api/service";
+import {
+    FETCH_EVENTS, ADD_EVENT, SUBSCRIBE, GET_EVENT_CREATOR, PARTICIPATE,
+    DELETE_EVENT, EDIT_EVENT
+} from "./actionTypes";
+import {
+    renderEvents, addEvent, getEventsByCategory, getEventsFromSubscriptions, subscribe, getEventCreator,
+    participate, removeEvent, removeCommentsForEvent, editEvent
+} from "../api/service";
 import toastr from "toastr";
+import {ajax_error} from "./authActions";
 
 function fetchEvents(data){
     return{
@@ -37,6 +44,20 @@ function participateInEvent(data) {
     }
 }
 
+function deleteEvent(id) {
+    return{
+        type: DELETE_EVENT,
+        id: id
+    }
+}
+
+function eventEdit(data){
+    return{
+        type: EDIT_EVENT,
+        data: data
+    }
+}
+
 function renderEventsAction() {
     return (dispatch) => {
         return renderEvents()
@@ -44,8 +65,7 @@ function renderEventsAction() {
                     dispatch(fetchEvents(json));
                 },
                 error => {
-                    console.log(error);
-                    toastr.error(error.responseJSON.message);
+                    toastr.error(error.responseJSON.description);
                 });
     };
 }
@@ -55,10 +75,11 @@ function addEventAction(data){
         return addEvent(data)
             .then(json => {
                     dispatch(eventAdd(json));
+                    toastr.success('Event added !');
                 },
                 error => {
-                    console.log(error);
-                    toastr.error(error.responseJSON.message);
+                    dispatch(ajax_error());
+                    toastr.error(error.responseJSON.description);
                 });
     };
 }
@@ -70,8 +91,7 @@ function getEventsByCategoryAction(category){
                     dispatch(fetchEvents(json));
                 },
                 error => {
-                    console.log(error);
-                    toastr.error(error.responseJSON.message);
+                    toastr.error(error.responseJSON.description);
                 });
     };
 }
@@ -83,31 +103,35 @@ function getEventsFromSubscriptionsAction(subs) {
                     dispatch(fetchEvents(json));
                 },
                 error => {
-                    console.log(error);
-                    toastr.error(error.responseJSON.message);
+                    toastr.error(error.responseJSON.description);
                 });
     };
 }
 
 function subscribeAction(type, category, user){
+    let message = '';
+
     if(type === 'subscribe'){
         if(user.subscriptions === undefined){
             user.subscriptions = [];
         }
         user.subscriptions.push(category);
+        message = `Subscribed to category ${category}`;
     }
     else{
         user.subscriptions = user.subscriptions.filter(s => s !== category);
+        message = `Unsubscribed from category ${category}`;
     }
 
     return (dispatch) => {
         return subscribe(user)
             .then(json => {
                     dispatch(subscribeUnsubscribe(json));
+                    toastr.success(message);
                 },
                 error => {
-                    console.log(error);
-                    toastr.error(error.responseJSON.message);
+                    dispatch(ajax_error());
+                    toastr.error(error.responseJSON.description);
                 });
     };
 }
@@ -119,33 +143,74 @@ function getEventCreatorAction(userId){
                     dispatch(eventCreator(json));
                 },
                 error => {
-                    console.log(error);
-                    toastr.error(error.responseJSON.message);
+                    toastr.error(error.responseJSON.description);
                 });
     };
 }
 
 function participateInEventAction(event, userId, type) {
+    let message = '';
+
     if(type === 'participate'){
         if(event.usersGoing === undefined){
             event.usersGoing = [];
         }
 
         event.usersGoing.push(userId);
+        message = toastr.success('Wohhoooo you have found your event!');
     }
     else{
         event.usersGoing = event.usersGoing.filter(u => u !== userId);
+        message = toastr.success('Cancel participation confirmed!');
     }
 
     return (dispatch) => {
         return participate(event)
             .then(json => {
                     dispatch(participateInEvent(json));
+                    toastr.success(message);
                 },
                 error => {
-                    console.log(error);
-                    toastr.error(error.responseJSON.message);
+                    toastr.error(error.responseJSON.description);
                 });
     };
 }
-export {renderEventsAction, addEventAction, getEventsByCategoryAction, getEventsFromSubscriptionsAction, subscribeAction, getEventCreatorAction, participateInEventAction}
+
+function deleteEventAction(id) {
+    return (dispatch) => {
+        return Promise.all([removeEvent(id), removeCommentsForEvent(id)])
+            .then(json => {
+                    dispatch(deleteEvent(id));
+                    toastr.success('Event deleted !');
+                },
+                error => {
+                    toastr.error(error.responseJSON.description);
+                });
+    };
+}
+
+function editEventAction(event){
+    return (dispatch) => {
+        return editEvent(event)
+            .then(json => {
+                    dispatch(eventEdit(json));
+                    toastr.success('Event edited !');
+                },
+                error => {
+                    dispatch(ajax_error());
+                    toastr.error(error.responseJSON.description);
+                });
+    };
+}
+
+export {
+    renderEventsAction,
+    addEventAction,
+    getEventsByCategoryAction,
+    getEventsFromSubscriptionsAction,
+    subscribeAction,
+    getEventCreatorAction,
+    participateInEventAction,
+    deleteEventAction,
+    editEventAction
+}

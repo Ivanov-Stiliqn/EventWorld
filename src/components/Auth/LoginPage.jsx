@@ -5,6 +5,8 @@ import {connect} from 'react-redux';
 import {loginAction, redirect} from '../../actions/authActions';
 import HomePage from "../HomePage/HomePage";
 import {setPage} from "../../actions/pageActions";
+import {validateLogin} from '../../api/validator';
+import toastr from 'toastr';
 
 class LoginPage extends Component {
     constructor(props) {
@@ -25,10 +27,21 @@ class LoginPage extends Component {
         this.setState({[e.target.name]: e.target.value});
     }
 
-    async onSubmitHandler(e) {
+    onSubmitHandler(e) {
         e.preventDefault();
-        await this.props.login(this.state.email, this.state.password);
-        this.props.history.push('/');
+        let check = validateLogin(this.state.email, this.state.password);
+        if(check !== ''){
+            toastr.error(check);
+            return;
+        }
+
+        this.props.login(this.state.email, this.state.password).then(() => {
+            if(this.props.redirect !== ''){
+                this.props.history.push(this.props.redirect);
+            }
+
+        });
+
 
     }
 
@@ -43,8 +56,8 @@ class LoginPage extends Component {
                         <div className="signin-form">
                             <div className="login-form-rec">
                                 <form onSubmit={this.onSubmitHandler}>
-                                    <Input type="email" name="email" placeholder="E-mail" required="" value={this.state.email} onChange={this.onChangeHandler}/>
-                                    <Input type="password" name="password" placeholder="Password" required="" value={this.state.password} onChange={this.onChangeHandler}/>
+                                    <Input type="email" name="email" placeholder="E-mail" value={this.state.email} onChange={this.onChangeHandler}/>
+                                    <Input type="password" name="password" placeholder="Password" minLength='3' value={this.state.password} onChange={this.onChangeHandler}/>
                                     <div className="tp">
                                         <input type="submit" value="Signin"/>
                                     </div>
@@ -66,8 +79,10 @@ class LoginPage extends Component {
     }
 }
 
-function mapState() {
-    return {};
+function mapState(state) {
+    return {
+        redirect: state.redirect
+    };
 }
 
 function mapDispatch(dispatch) {

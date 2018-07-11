@@ -1,8 +1,9 @@
 import {
     LOGIN_SUCCESS, REGISTER_SUCCESS, LOGOUT, AJAX_ERROR, SEED_USER, SUBSCRIBE,
-    GET_EVENT_CREATOR
+    GET_EVENT_CREATOR, EDIT_PROFILE
 } from "../actions/actionTypes";
 import toastr from 'toastr';
+import {getNotificationsAction} from "../actions/notificationActions";
 
 export function userReducer(state = {}, action) {
     switch (action.type) {
@@ -13,6 +14,7 @@ export function userReducer(state = {}, action) {
         case SEED_USER:
         case LOGIN_SUCCESS:
         case REGISTER_SUCCESS:
+        case EDIT_PROFILE:
             let user = action.user;
             localStorage.setItem('user', JSON.stringify(user));
             return user;

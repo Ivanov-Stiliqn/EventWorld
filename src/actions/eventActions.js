@@ -4,7 +4,7 @@ import {
 } from "./actionTypes";
 import {
     renderEvents, addEvent, getEventsByCategory, getEventsFromSubscriptions, subscribe, getEventCreator,
-    participate, removeEvent, removeCommentsForEvent, editEvent
+    participate, removeEvent, removeCommentsForEvent, editEvent, getEventById
 } from "../api/service";
 import toastr from "toastr";
 import {ajax_error} from "./authActions";
@@ -157,11 +157,11 @@ function participateInEventAction(event, userId, type) {
         }
 
         event.usersGoing.push(userId);
-        message = toastr.success('Wohhoooo you have found your event!');
+        message = 'Wohhoooo you have found your event!';
     }
     else{
         event.usersGoing = event.usersGoing.filter(u => u !== userId);
-        message = toastr.success('Cancel participation confirmed!');
+        message = 'Cancel participation confirmed!'
     }
 
     return (dispatch) => {

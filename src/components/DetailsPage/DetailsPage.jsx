@@ -4,7 +4,7 @@ import {Link} from 'react-router-dom';
 import {getEventCreatorAction, participateInEventAction} from "../../actions/eventActions";
 import {searchAddress} from "../../utilities/map";
 import CommentList from './CommentList';
-import toastr from 'toastr';
+import {getEventById} from "../../api/service";
 
 class DetailsPage extends Component {
     constructor(props) {
@@ -17,9 +17,9 @@ class DetailsPage extends Component {
         this.participate = this.participate.bind(this);
     }
 
-    componentDidMount() {
+    async componentDidMount() {
         let id = this.props.match.params.id;
-        let event = this.props.events.filter(e => e._id === id)[0];
+        let event = await this.fetchData(id);
 
         this.setState({event: event});
         this.props.getEventCreator(event.user);
@@ -36,6 +36,18 @@ class DetailsPage extends Component {
             window.scrollTo(0, 0);
             searchAddress(event.location);
         }
+    }
+
+    async fetchData(eventId){
+        let event = {};
+        if(this.props.events.length === 0){
+            event = await getEventById(eventId);
+        }
+        else{
+            event = this.props.events.filter(e => e._id === eventId)[0];
+        }
+
+        return event;
     }
 
     participate(e){
@@ -61,7 +73,7 @@ class DetailsPage extends Component {
                             <h4>Location: {this.state.event.location}</h4>
                             <div id="map-canvas" className="map"></div>
 
-                           <CommentList event={this.state.event._id}/>
+                           <CommentList event={this.state.event}/>
                         </div>
                     </div>
 

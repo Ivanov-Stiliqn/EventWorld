@@ -127,7 +127,7 @@ class EventsPage extends Component
                     <h3 className="tittle-w3ls">All Events</h3> :
                     <div className="subscribeArea">
                         <h3 className="tittle-w3ls">Events from category {this.state.category}</h3>
-                        {this.props.user.username !== undefined ?
+                        {this.props.user.username !== undefined && this.props.events.length !== 0 ?
                             this.props.user.subscriptions !== undefined && this.props.user.subscriptions.indexOf(this.state.category) !== -1 ?
                                 <button className="subscribeBtn" name='unsubscribe' onClick={this.subscribe}>Unsubscribe</button> :
                                 <button className="subscribeBtn" name='subscribe' onClick={this.subscribe}>Subscribe</button> :
@@ -141,7 +141,8 @@ class EventsPage extends Component
                         })}
                     </div>
                 </div>
-               <Pagination data={this.state.pagination}/>
+                {this.props.events.length !== 0 &&
+               <Pagination data={this.state.pagination}/>}
             </div>
         );
     }

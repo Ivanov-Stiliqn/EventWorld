@@ -1,11 +1,12 @@
 import React from 'react';
+import {Link} from 'react-router-dom';
 
 export default function render() {
     return(
         <div className="footer">
         <div className="footer_inner_info_w3ls_agileits">
             <div className="col-md-3 footer-left">
-                <h2><a href="index.html"><i className="fa fa-clone" aria-hidden="true"></i> Conceit </a></h2>
+                <h2><a href="index.html"><i className="fa fa-clone" aria-hidden="true"></i> Event World </a></h2>
                 <p>Lorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora.</p>
             </div>
             <div className="col-md-9 footer-right">
@@ -13,11 +14,9 @@ export default function render() {
                     <div className="col-md-4 sign-gd">
                         <h4>Latest <span>Info</span> </h4>
                         <ul>
-                            <li><a href="index.html">Home</a></li>
-                            <li><a href="about.html">About</a></li>
-                            <li><a href="404.html">Services</a></li>
-                            <li><a href="signin.html">Signin</a></li>
-                            <li><a href="contact.html">Contact</a></li>
+                            <li><Link to="/">Home</Link></li>
+                            <li><Link to="/login">Login</Link></li>
+                            <li><Link to="/register">Register</Link></li>
                         </ul>
                     </div>
                     <div className="col-md-5 sign-gd-two">
@@ -62,7 +61,7 @@ export default function render() {
                 </div>
             </div>
             <div className="clearfix"></div>
-            <p className="copy-right">&copy 2018 Conceit. All rights reserved | Design by <a href="http://w3layouts.com/">W3layouts</a></p>
+            <p className="copy-right">&copy; 2018 Event World. All rights reserved | Design by <a target='_blank' href="https://github.com/Ivanov-Stiliqn">Stiliyan Ivanov</a></p>
         </div>
     </div>
     );

@@ -1,5 +1,5 @@
 import {
-    ADD_CATEGORY, ADD_EVENT, AJAX_ERROR, EDIT_EVENT, LOGIN_SUCCESS, REGISTER_SUCCESS,
+    ADD_CATEGORY, ADD_EVENT, AJAX_ERROR, EDIT_EVENT, EDIT_PROFILE, LOGIN_SUCCESS, REGISTER_SUCCESS,
     SUBSCRIBE
 } from "../actions/actionTypes";
 
@@ -8,6 +8,7 @@ export function redirectReducer(state = '', action) {
         case ADD_CATEGORY:
         case LOGIN_SUCCESS:
         case REGISTER_SUCCESS:
+        case EDIT_PROFILE:
             return '/';
         case ADD_EVENT:
         case EDIT_EVENT:

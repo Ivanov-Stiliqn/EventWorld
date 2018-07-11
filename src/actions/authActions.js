@@ -1,7 +1,9 @@
 import {REGISTER_SUCCESS, LOGIN_SUCCESS, LOGOUT} from '../actions/actionTypes';
 import {login, register} from '../api/auth';
-import {AJAX_ERROR, SEED_USER} from "./actionTypes";
+import {AJAX_ERROR, EDIT_PROFILE, SEED_USER} from "./actionTypes";
 import toastr from 'toastr'
+import {getNotificationsAction} from "./notificationActions";
+import {editProfile} from "../api/service";
 
 function registerSuccess(user) {
     return {
@@ -24,26 +26,53 @@ export function logoutSuccess() {
 }
 
 export function ajax_error() {
-    return{
+    return {
         type: AJAX_ERROR
     }
 }
 
-export function seedUser(user){
-    return{
+export function seedUser(user) {
+    return {
         type: SEED_USER,
         user: user
     }
 }
 
+function profileEdit(user) {
+    return {
+        type: EDIT_PROFILE,
+        user: user
+    }
+}
+
+function editProfileAction(user) {
+    return (dispatch) => {
+        return editProfile(user)
+            .then(json => {
+                    dispatch(profileEdit(json));
+                },
+                error => {
+                    dispatch(ajax_error());
+                    toastr.error(error.responseJSON.description);
+                });
+    };
+}
+
+
 function seedUserAction() {
     return (dispatch) => {
-        let json = localStorage.getItem('user');
-        if(json !== null){
-            let user = JSON.parse(json);
-            dispatch(seedUser(user));
-            toastr.success(`Welcome ${user.firstName}`);
-        }
+        return new Promise(function (resolve, reject) {
+            let json = localStorage.getItem('user');
+            if (json !== null) {
+                let user = JSON.parse(json);
+                dispatch(seedUser(user));
+                toastr.success(`Welcome ${user.firstName}`);
+                resolve(user);
+            }
+            else {
+                reject({});
+            }
+        });
     };
 }
 
@@ -65,9 +94,9 @@ function loginAction(email, password) {
     return (dispatch) => {
         return login(email, password)
             .then(json => {
-                dispatch(loginSuccess(json));
-                toastr.success(`Welcome ${json.firstName}`);
-            },
+                    dispatch(loginSuccess(json));
+                    toastr.success(`Welcome ${json.firstName}`);
+                },
                 error => {
                     dispatch(ajax_error());
                     toastr.error(error.responseJSON.description);
@@ -82,4 +111,4 @@ function logoutAction() {
     };
 }
 
-export {registerAction, loginAction, logoutAction, seedUserAction};
+export {registerAction, loginAction, logoutAction, seedUserAction, editProfileAction};

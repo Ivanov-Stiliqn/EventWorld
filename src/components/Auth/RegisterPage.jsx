@@ -6,6 +6,7 @@ import {Link} from 'react-router-dom';
 import {setPage} from "../../actions/pageActions";
 import toastr from 'toastr'
 import {validateRegister} from "../../api/validator";
+import ContactForm from "../common/ContactForm";
 
 class RegisterPage extends Component {
     constructor(props) {
@@ -16,13 +17,19 @@ class RegisterPage extends Component {
             firstName: '',
             lastName: '',
             password: '',
-            repeat: ''
+            repeat: '',
+            profileImage: ''
         };
 
+        this.onFileUpload = this.onFileUpload.bind(this);
         this.onChangeHandler = this.onChangeHandler.bind(this);
         this.onSubmitHandler = this.onSubmitHandler.bind(this);
 
         this.props.setPage('Register');
+    }
+
+    onFileUpload(url){
+        this.setState({profileImage: url});
     }
 
     onChangeHandler(e) {
@@ -37,7 +44,7 @@ class RegisterPage extends Component {
             return;
         }
 
-        this.props.register(this.state.firstName, this.state.lastName, this.state.email, this.state.password).then(() => {
+        this.props.register(this.state).then(() => {
             if(this.props.redirect !== ''){
                 this.props.history.push(this.props.redirect);
             }
@@ -56,6 +63,8 @@ class RegisterPage extends Component {
                         <div className="signin-form">
                             <div className="login-form-rec">
                                 <form onSubmit={this.onSubmitHandler}>
+                                    <label>Profile Image: </label>
+                                    <ContactForm updateParent={this.onFileUpload}/>
                                     <Input type="text" name="firstName" placeholder="First Name" value={this.state.firstName} onChange={this.onChangeHandler}/>
                                     <Input type="text" name="lastName" placeholder="Last Name"  value={this.state.lastName} onChange={this.onChangeHandler}/>
                                     <Input type="email" name="email" placeholder="Email" value={this.state.email} onChange={this.onChangeHandler}/>

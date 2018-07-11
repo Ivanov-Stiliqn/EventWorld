@@ -18,6 +18,7 @@ import './style/single.css'
 import './style/style.css'
 import './style/team.css'
 import '../node_modules/toastr/build/toastr.min.css'
+import {getNotificationsAction} from "./actions/notificationActions";
 
 
 class App extends Component {
@@ -26,8 +27,13 @@ class App extends Component {
 
         this.onLogout = this.onLogout.bind(this);
 
-        this.props.seedUser();
         this.props.renderCategories();
+        this.props.seedUser().then((user) => {
+            if(user._id !== undefined){
+                this.props.getNotifications(user._id);
+            }
+        });
+
     }
 
     onLogout() {
@@ -38,7 +44,7 @@ class App extends Component {
     render() {
         return (
             <div className="App">
-                <Header logout={this.onLogout}/>
+                <Header logout={this.onLogout} notificationsCount={this.props.notifications.length}/>
                 <Auth/>
                 <Footer/>
             </div>
@@ -47,14 +53,18 @@ class App extends Component {
 }
 
 function mapState(state) {
-    return {user: state.user};
+    return {
+        user: state.user,
+        notifications: state.notifications
+    };
 }
 
 function mapDispatch(dispatch) {
     return {
         logout: () => dispatch(logoutAction()),
         seedUser: () => dispatch(seedUserAction()),
-        renderCategories: () => dispatch(renderCategoriesAction())
+        renderCategories: () => dispatch(renderCategoriesAction()),
+        getNotifications: (userId) => dispatch(getNotificationsAction(userId))
     };
 }
 

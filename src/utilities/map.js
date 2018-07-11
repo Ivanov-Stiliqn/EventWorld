@@ -4,7 +4,6 @@ let marker;
 
 
 export function searchAddress(location) {
-    console.log(location);
     let mapOptions = {
 		center: new google.maps.LatLng(40.680898,-8.684059),
 		zoom: 11,

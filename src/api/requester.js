@@ -11,7 +11,6 @@ export function makeAuth(type) {
     }
 
     let user = JSON.parse(localStorage.getItem('user'));
-    let credentials = '';
     if(user === null){
        return 'Basic ' +  btoa('guest' + ':' + 'guest')
     }

@@ -2,12 +2,14 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {setPage} from "../../actions/pageActions";
 import Category from './Category'
+import {getNotificationsAction} from "../../actions/notificationActions";
 
 class HomePage extends Component {
     constructor(props) {
         super(props);
 
         this.props.setPage('Home');
+        this.props.getNotifications(this.props.user._id);
     }
 
     render() {
@@ -43,7 +45,8 @@ function mapState(state) {
 
 function mapDispatch(dispatch) {
     return {
-        setPage: (page) => dispatch(setPage(page))
+        setPage: (page) => dispatch(setPage(page)),
+        getNotifications: (userId) => dispatch(getNotificationsAction(userId))
     };
 }
 

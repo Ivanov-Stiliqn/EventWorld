@@ -3,6 +3,7 @@ import Comment from './Comment';
 import {connect} from "react-redux";
 import {addCommentAction, fetchCommentsAction} from "../../actions/commentActions";
 import toastr from 'toastr';
+import {addNotificationAction} from "../../actions/notificationActions";
 
 class CommentList extends Component{
     constructor(props){
@@ -14,12 +15,12 @@ class CommentList extends Component{
 
         this.onChangeHandler = this.onChangeHandler.bind(this);
         this.onSubmitHandler = this.onSubmitHandler.bind(this);
-        this.props.fetchComments(this.props.event);
+        this.props.fetchComments(this.props.event._id);
     }
 
     componentDidUpdate(prevProps){
-        if(this.props.event !== prevProps.event){
-            this.props.fetchComments(this.props.event);
+        if(this.props.event._id !== prevProps.event._id){
+            this.props.fetchComments(this.props.event._id);
         }
     }
 
@@ -38,14 +39,25 @@ class CommentList extends Component{
             content: this.state.content,
             userFullname: this.props.user.firstName + ' ' + this.props.user.lastName,
             userImage: this.props.user.profileImage,
-            eventId: this.props.event
+            eventId: this.props.event._id
         };
 
         this.setState({content: ''});
 
         this.props.addComment(comment).then(() => {
             toastr.success('Comment added !');
-        })
+        });
+
+        let users = this.props.event.usersGoing.filter(u => u !== this.props.user._id);
+        users.push(this.props.event.user);
+        let notification = {
+            event: this.props.event._id,
+            user: users,
+            content: `${this.props.user.firstName} ${this.props.user.lastName} added comment for event: ${this.props.event.name}`,
+            isRead: false
+        };
+
+        this.props.addNotification(notification);
     }
 
     divideCommentsIntoGroups(){
@@ -94,7 +106,8 @@ function mapState(state) {
 function mapDispatch(dispatch) {
     return {
         fetchComments: (eventId) => dispatch(fetchCommentsAction(eventId)),
-        addComment: (comment) => dispatch(addCommentAction(comment))
+        addComment: (comment) => dispatch(addCommentAction(comment)),
+        addNotification: (notification) => dispatch(addNotificationAction(notification))
     };
 }
 

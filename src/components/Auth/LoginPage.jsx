@@ -1,9 +1,8 @@
 import React, {Component} from 'react';
 import Input from '../common/Input';
-import {Link, Redirect} from 'react-router-dom'
 import {connect} from 'react-redux';
+import {Link} from 'react-router-dom';
 import {loginAction, redirect} from '../../actions/authActions';
-import HomePage from "../HomePage/HomePage";
 import {setPage} from "../../actions/pageActions";
 import {validateLogin} from '../../api/validator';
 import toastr from 'toastr';
@@ -70,7 +69,7 @@ class LoginPage extends Component {
                                     <li><a href="#"><i className="fa fa-rss"></i></a></li>
                                 </ul>
                             </div>
-                            <p><a href="signup.html"> Don't have an account?</a></p>
+                            <p><Link to="/register"> Don't have an account?</Link></p>
                         </div>
                     </div>
                 </div>

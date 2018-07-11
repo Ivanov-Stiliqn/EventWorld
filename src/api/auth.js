@@ -16,12 +16,17 @@ export function login(email, password) {
     }
 
     // user/register
-export function register(firstName, lastName, email, password, profileImage = defaultProfileImage) {
+export function register(data) {
+        let profileImage = data.profileImage;
+        if(data.profileImage === ''){
+            profileImage = defaultProfileImage;
+        }
+
         let userData = {
-            username: email,
-            password,
-            firstName,
-            lastName,
+            username: data.email,
+            password: data.password,
+            firstName: data.firstName,
+            lastName: data.lastName,
             isAdmin: false,
             subscriptions: [],
             profileImage

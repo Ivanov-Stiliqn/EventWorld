@@ -4,6 +4,7 @@ import { categoryReducer } from './categoryReducer';
 import { eventReducer } from './eventReducer';
 import {commentReducer} from "./commentReducer";
 import {redirectReducer} from "./redirectReducer";
+import {notificationReducer} from "./notificationReducer";
 
 export default {
     user: userReducer,
@@ -12,5 +13,6 @@ export default {
     events: eventReducer,
     creator: eventCreatorReducer,
     comments: commentReducer,
-    redirect: redirectReducer
+    redirect: redirectReducer,
+    notifications: notificationReducer
 };

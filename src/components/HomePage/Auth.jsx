@@ -10,12 +10,10 @@ import AddEventPage from "../AddEventPage/AddEventPage";
 import NotFound from "../common/NotFound";
 import DetailsPage from "../DetailsPage/DetailsPage";
 import EditEvent from "../EventsPage/EditEvent";
+import NotificationsPage from "../NotificationsPage/NotificationsPage";
+import ProfilePage from "../ProfilePage/ProfilePage";
 
 class Auth extends Component {
-    constructor(props) {
-        super(props);
-    }
-
     render() {
         if(this.props.user.username === undefined){
             return (
@@ -41,6 +39,8 @@ class Auth extends Component {
                     <Route exact path="/all/:page/:category" component={EventsPage}/>
                     <Route exact path="/all/:page" component={EventsPage}/>
                     <Route exact path="/details/:id" component={DetailsPage}/>
+                    <Route exact path="/profile" component={ProfilePage}/>
+                    <Route exact path="/notifications" component={NotificationsPage}/>
                     <Route exact path="/" component={HomePage}/>
                     <Route path='*' component={NotFound}/>
                 </Switch>
@@ -57,6 +57,8 @@ class Auth extends Component {
                 <Route exact path="/all/:page" component={EventsPage}/>
                 <Route exact path="/add-category" component={AddCategoryPage}/>
                 <Route exact path="/details/:id" component={DetailsPage}/>
+                <Route exact path="/profile" component={ProfilePage}/>
+                <Route exact path="/notifications" component={NotificationsPage}/>
                 <Route exact path="/" component={HomePage}/>
                 <Route path='*' component={NotFound}/>
             </Switch>

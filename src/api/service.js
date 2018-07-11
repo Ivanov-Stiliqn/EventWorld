@@ -1,47 +1,5 @@
 import * as requester from './requester';
-import {fullDate} from '../utilities/dateConverter';
-
-export function renderChirps(subscriptions) {
-    let subs = JSON.stringify(subscriptions);
-    return requester.get('appdata', `chirps?query={"author":{"$in": ${subs}}}&sort={"_kmd.ect": 1}`);
-}
-
-export function renderChirpsFromUser(username) {
-    return requester.get('appdata', `chirps?query={"author":"${username}"}&sort={"_kmd.ect": 1}`);
-}
-
-export function getChirps(username) {
-    return requester.get('appdata', `chirps?query={"author":"${username}"}`);
-}
-
-export function getFollowing(username) {
-    return requester.get('user', `?query={"username":"${username}"}`);
-}
-
-export function getFollowers(username) {
-    return requester.get('user', `?query={"subscriptions":"${username}"}`);
-}
-
-export function getStats(username) {
-    return Promise.all([getChirps(username), getFollowing(username), getFollowers(username)]);
-}
-
-export function postChirp(text, author) {
-    let data = {
-        text,
-        author
-    };
-
-    return requester.post('appdata', 'chirps', 'kinvey', data);
-}
-
-export function deleteChrip(id) {
-    return requester.remove('appdata', 'chirps/' + id);
-}
-
-export function getUsers() {
-    return requester.get('user', '');
-}
+import {fullDate, nextDay} from '../utilities/dateConverter';
 
 export function subscribe(user) {
     return requester.update('user', user._id, 'kinvey', user);
@@ -58,16 +16,16 @@ export function addCategory(name, image){
 }
 
 export function renderEvents(){
-    return requester.get('appdata', `events?query={"date":{"$gte": "${fullDate(new Date(Date.now()))}"}}`)
+    return requester.get('appdata', `events?query={"date":{"$gte": "${fullDate(new Date(Date.now()))}"}}&sort={"_kmd.ect": -1}`)
 }
 
 export function getEventsByCategory(category) {
-    return requester.get('appdata', `events?query={"date":{"$gte": "${fullDate(new Date(Date.now()))}"},"category": "${category}"}`)
+    return requester.get('appdata', `events?query={"date":{"$gte": "${fullDate(new Date(Date.now()))}"},"category": "${category}"}&sort={"_kmd.ect": -1}`)
 }
 
 export function getEventsFromSubscriptions(subscriptions) {
     let subs = JSON.stringify(subscriptions);
-    return requester.get('appdata', `events?query={"category":{"$in": ${subs}}}&sort={"_kmd.ect": 1}`);
+    return requester.get('appdata', `events?query={"category":{"$in": ${subs}}}&sort={"_kmd.ect": -1}`);
 }
 
 export function addEvent(data){
@@ -83,7 +41,7 @@ export function participate(event){
 }
 
 export function renderComments(eventId){
-    return requester.get('appdata', `comments?query={"eventId":"${eventId}"}`);
+    return requester.get('appdata', `comments?query={"eventId":"${eventId}"}&sort={"_kmd.ect": 1}`);
 }
 
 export function addComment(comment) {
@@ -108,4 +66,30 @@ export function removeCommentsForEvent(eventId) {
 
 export function editEvent(event) {
     return requester.update('appdata', 'events/' + event._id, 'kinvey', event);
+}
+
+export function upcommingEvents(userId){
+    return requester.get('appdata', `events?query={"date": "${nextDay(new Date(Date.now()))}","usersGoing": "${userId}"}`)
+}
+
+
+export function getNotifications(userId) {
+    return requester.get('appdata', `notifications?query={"user":"${userId}"}`);
+}
+
+export function addNotification(notification){
+    return requester.post('appdata', 'notifications', 'kinvey', notification);
+}
+
+export function getEventById(eventId){
+    return requester.get('appdata', 'events/' + eventId);
+}
+
+export function removeNotification(notification, userId){
+    notification.user = notification.user.filter(u => u !== userId);
+    return requester.update('appdata', 'notifications/' + notification._id, 'kinvey', notification);
+}
+
+export function editProfile(user) {
+    return requester.update('user', user._id, 'kinvey', user);
 }

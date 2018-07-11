@@ -1,4 +1,5 @@
 import React from 'react';
+import {Link} from 'react-router-dom';
 
 export default function render() {
     return (
@@ -8,8 +9,8 @@ export default function render() {
             <div className="services-breadcrumb">
                 <div className="inner_breadcrumb">
                     <ul className="short">
-                        <li><a href="index.html">Home</a><span>|</span></li>
-                        <li>Contact</li>
+                        <li><Link to="/">Home</Link><span>|</span></li>
+                        <li>Event World</li>
                     </ul>
                 </div>
             </div>

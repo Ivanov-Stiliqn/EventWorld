@@ -22,7 +22,7 @@ export function notificationReducer(state = [], action) {
 
             return eventsNotification.concat(commentNotifications);
         case REMOVE_NOTIFICATION:
-            return state.filter(n => n.content !== action.data.content || n._id === undefined);
+            return state.filter(n => n._id !== action.data._id);
         default: return state;
     }
 }

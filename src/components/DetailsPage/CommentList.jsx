@@ -15,7 +15,6 @@ class CommentList extends Component{
 
         this.onChangeHandler = this.onChangeHandler.bind(this);
         this.onSubmitHandler = this.onSubmitHandler.bind(this);
-        this.props.fetchComments(this.props.event._id);
     }
 
     componentDidUpdate(prevProps){
@@ -49,7 +48,10 @@ class CommentList extends Component{
         });
 
         let users = this.props.event.usersGoing.filter(u => u !== this.props.user._id);
-        users.push(this.props.event.user);
+        if(this.props.user._id !== this.props.event.user){
+            users.push(this.props.event.user);
+        }
+
         let notification = {
             event: this.props.event._id,
             user: users,

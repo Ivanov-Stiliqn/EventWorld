@@ -21,7 +21,8 @@ class EditEvent extends Component {
             availablePlaces: event.availablePlaces,
             location: event.location,
             description: event.description,
-            isLooking: event.isLooking === 'true'
+            isLooking: event.isLooking === 'true',
+            user : event.user
         };
 
         this.onChangeHandler = this.onChangeHandler.bind(this);
@@ -46,7 +47,6 @@ class EditEvent extends Component {
         }
 
         let data = Object.assign({}, this.state);
-        data.user = this.props.user._id;
         this.props.editEvent(data).then(() => {
             if(this.props.redirect !== ''){
                 this.props.history.push(this.props.redirect);
